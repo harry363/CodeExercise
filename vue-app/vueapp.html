@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <form>
+      <label>Start Latitude:</label>
+      <input type="text" v-model="start_lat">
+      <br>
+      <label>Start Longitude:</label>
+      <input type="text" v-model="start_long">
+      <br>
+      <label>End Latitude:</label>
+      <input type="text" v-model="end_lat">
+      <br>
+      <label>End Longitude:</label>
+      <input type="text" v-model="end_long">
+      <br>
+      <label>Rider Name:</label>
+      <input type="text" v-model="rider_name">
+      <br>
+      <label>Driver Name:</label>
+      <input type="text" v-model="driver_name">
+      <br>
+      <label>Driver Vehicle:</label>
+      <input type="text" v-model="driver_vehicle">
+      <br>
+      <button @click="submitForm()">Submit</button>
+    </form>
+  </div>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        start_lat: '',
+        start_long: '',
+        end_lat: '',
+        end_long: '',
+        rider_name: '',
+        driver_name: '',
+        driver_vehicle: ''
+      },
+      methods: {
+        async submitForm() {
+          try {
+            const response = await axios.post('http://localhost:8010/rides', {
+              start_lat: this.start_lat,
+              start_long: this.start_long,
+              end_lat: this.end_lat,
+              end_long: this.end_long,
+              rider_name: this.rider_name,
+              driver_name: this.driver_name,
+              driver_vehicle: this.driver_vehicle
+            });
+            console.log(response);
+            alert("Ride added successfully")
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

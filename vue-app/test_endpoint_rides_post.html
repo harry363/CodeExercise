@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <form id="ride-form">
+      <label for="start_lat">Start Latitude:</label>
+      <input type="text" id="start_lat" name="start_lat"><br>
+      <label for="start_long">Start Longitude:</label>
+      <input type="text" id="start_long" name="start_long"><br>
+      <label for="end_lat">End Latitude:</label>
+      <input type="text" id="end_lat" name="end_lat"><br>
+      <label for="end_long">End Longitude:</label>
+      <input type="text" id="end_long" name="end_long"><br>
+      <label for="rider_name">Rider Name:</label>
+      <input type="text" id="rider_name" name="rider_name"><br>
+      <label for="driver_name">Driver Name:</label>
+      <input type="text" id="driver_name" name="driver_name"><br>
+      <label for="driver_vehicle">Driver Vehicle:</label>
+      <input type="text" id="driver_vehicle" name="driver_vehicle"><br>
+      <input type="button" value="Submit" onclick="submitForm()">
+    </form>
+
+    <script>
+      function submitForm() {
+        const formData = new FormData(document.getElementById('ride-form'));
+        const data = Object.fromEntries(formData);
+
+        fetch('http://localhost:8010/rides', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'Content-Type': 'application/json' }
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+    </script>
+  </body>
+</html>
